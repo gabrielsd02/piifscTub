@@ -29,7 +29,13 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+        if (auth()->user()->unconfirmed == 3) {
+            return RouteServiceProvider::PROFESSOR;
+        }
+        return RouteServiceProvider::HOME;
+    }
 
     /**
      * Create a new controller instance.
@@ -65,12 +71,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'escola' => $data['escola'],
-            'unconfirmed' => $data['unconfirmed'],
-        ]);
+        if(isset($data['unconfirmed'])){
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'escola' => $data['escola'],
+                'unconfirmed' => $data['unconfirmed']]);
+        }else{
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'escola' => $data['escola'],
+                'unconfirmed' => 1]);
+        }        
     }
 }
