@@ -31,7 +31,6 @@ class LoginController extends Controller
      */
 
 
-
     protected function redirectTo()
     {
         if (auth()->user()->unconfirmed == 3) {
@@ -39,6 +38,7 @@ class LoginController extends Controller
         }
         return RouteServiceProvider::HOME;
     }
+
 
     
 
